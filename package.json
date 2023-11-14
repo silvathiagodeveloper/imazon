@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.450.0",
+    "mime-types": "^2.1.35",
+    "multiparty": "^4.2.3",
+    "react-sortablejs": "^6.1.4",
+    "react-spinners": "^0.13.8",
+    "sortablejs": "^1.15.0"
+  }
+}
