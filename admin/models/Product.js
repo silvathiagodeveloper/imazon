@@ -1,4 +1,3 @@
-import { Int32 } from "mongodb";
 import mongoose from "mongoose";
 import {Schema, model, models } from "mongoose";
 
@@ -9,6 +8,8 @@ const ProductSchema = new Schema({
     price: {type: Number, required: true},
     images: [{type: String}],
     properties: {type: Object},
+},{
+    timestamps: true
 });
 
 export const Product = models.Product || model('Product', ProductSchema);

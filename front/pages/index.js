@@ -1,18 +1,20 @@
 import Featured from "@/components/Featured";
 import Header from "@/components/Header";
+import NewProducts from "@/components/NewProducts";
 
-export default function HomePage({product}){
+export default function HomePage({featuredProduct, newProducts}){
     return (
         <div>
             <Header />
-            <Featured product={product} />
+            <Featured product={featuredProduct} />
+            <NewProducts products={newProducts}/>
         </div>
     );
 }
 
 
 export function getServerSideProps(){
-    const product = {
+    const featuredProduct = {
         _id: '655170dfa2271ba3d551e171',
         title: 'Macbook 14 Pro',
         category: {id:1, name:'Notebooks'},
@@ -21,7 +23,21 @@ export function getServerSideProps(){
         images: ['https://mycommerce-e2.s3.amazonaws.com/1701945942450.png'],
         properties: {Cor: 'Branco'}
     }
+    const newProducts = [
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct,
+        featuredProduct
+    ];
     return {
-        props: { product : JSON.parse(JSON.stringify(product))}
+        props: { 
+            featuredProduct : JSON.parse(JSON.stringify(featuredProduct)),
+            newProducts : JSON.parse(JSON.stringify(newProducts)),
+        }
     };
 }
