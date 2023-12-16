@@ -1,6 +1,8 @@
 import Featured from "@/components/Featured";
 import Header from "@/components/Header";
 import NewProducts from "@/components/NewProducts";
+import { mongooseConnect } from "@/lib/mongoose";
+import { Product } from "@/models/Product";
 
 export default function HomePage({featuredProduct, newProducts}){
     return (
@@ -12,9 +14,9 @@ export default function HomePage({featuredProduct, newProducts}){
     );
 }
 
-
-export function getServerSideProps(){
-    const featuredProduct = {
+export async function getServerSideProps(){
+    await mongooseConnect();
+    /*const featuredProduct = {
         _id: '655170dfa2271ba3d551e171',
         title: 'Macbook 14 Pro',
         category: {id:1, name:'Notebooks'},
@@ -22,8 +24,8 @@ export function getServerSideProps(){
         price: 1595,
         images: ['https://mycommerce-e2.s3.amazonaws.com/1701945942450.png'],
         properties: {Cor: 'Branco'}
-    }
-    const newProducts = [
+    }*/
+   /* const newProducts = [
         featuredProduct,
         featuredProduct,
         featuredProduct,
@@ -33,7 +35,9 @@ export function getServerSideProps(){
         featuredProduct,
         featuredProduct,
         featuredProduct
-    ];
+    ];*/
+    const featuredProduct = await Product.findById('6559f56c03f7b4e5f71d6942');
+    const newProducts = await Product.find({}, null, {sort: {'_id' : -1}});
     return {
         props: { 
             featuredProduct : JSON.parse(JSON.stringify(featuredProduct)),

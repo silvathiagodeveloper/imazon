@@ -18,7 +18,6 @@ export default function App({ Component, pageProps }) {
             <CartContextProvider>
                 <Component {...pageProps} />
             </CartContextProvider>
-            <Component {...pageProps} />
         </>
     );
 }
