@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Table from "@/components/Table";
+import Input from "@/components/Input";
+import Center from "@/components/Center";
 
 const ColumnsWrapper = styled.div`
     display: grid;
@@ -21,6 +23,11 @@ const Box = styled.div`
 
 const ProductInfoCell = styled.td`
     padding: 10px 0;
+`;
+
+const CityHolder = styled.div`
+    display: flex;
+    gap: 5px;
 `;
 
 const ProductImageBox = styled.div`
@@ -45,12 +52,22 @@ const QuantityLabel = styled.span`
 export default function CartPage(){
     const {cartProducts, addProduct, removeProduct} = useContext(CartContext);
     const [products, setProducts] = useState([]);
+    const [buyer, setBuyer] = useState({
+        name: '',
+        email: '',
+        city: '',
+        postalCode: '',
+        streetAddress: '',
+        country: ''
+    });
     useEffect(() => {
         if(cartProducts.length > 0){
             axios.post('api/cart', {ids:cartProducts})
             .then(response => {
                 setProducts(response.data);        
             })
+        } else {
+            setProducts([]);
         }
     }, [cartProducts]);
     function moreOfThisProduct(id){
@@ -59,14 +76,46 @@ export default function CartPage(){
     function lessOfThisProduct(id){
         removeProduct(id);
     }
+    async function goToPayment(){
+        const response = await axios.post('api/checkout',{
+            buyer, cartProducts
+        })
+        if(response.data.url){
+            window.location = response.data.url
+        }
+    }
     let total = 0;
     for (const productId of cartProducts){
         const price = products.find(p => p._id == productId)?.price || 0;
         total += price;
     }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setBuyer(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+        console.log(buyer);
+    };
+    if(window.location.href.includes('success')){
+        return(
+            <>
+                <Header/>
+                <Center>
+                    <ColumnsWrapper>
+                        <Box>
+                            <h1>Thanks for your order</h1>
+                            <p>We will email when your order will be sent.</p>
+                        </Box>
+                    </ColumnsWrapper>
+                </Center>
+            </>
+        )
+    }
     return (
         <>
             <Header/>
+            <Center>
             <ColumnsWrapper>
                 <Box>
                     <h2>Cart</h2>
@@ -119,12 +168,20 @@ export default function CartPage(){
                 {!!cartProducts?.length &&(
                     <Box>
                         <h2>Order Information</h2>
-                        <input type="text" placeholder="Address"/>
-                        <input type="text" placeholder="Address 2"/>
-                        <Button black block>Continue to payment</Button>
+                        <Input type="text" placeholder="Name" name="name" onChange={handleChange} value={buyer.name}/>
+                        <Input type="text" placeholder="Email" name="email" onChange={handleChange} value={buyer.email}/>
+                        <CityHolder>
+                            <Input type="text" placeholder="City" name="city" onChange={handleChange} value={buyer.city}/>
+                            <Input type="text" placeholder="Postal code" name="postalCode" onChange={handleChange} value={buyer.postalCode}/>
+                        </CityHolder>
+                        <Input type="text" placeholder="Street Address" name="streetAddress" onChange={handleChange} value={buyer.streetAddress}/>
+                        <Input type="text" placeholder="Country" name="country" onChange={handleChange} value={buyer.country}/>
+                        <input type="hidden" name="products" value={cartProducts.join(',')} />
+                        <Button black block onClick={goToPayment}>Continue to payment</Button>
                     </Box>
                 )}
             </ColumnsWrapper>
+            </Center>
         </>
     );
 }
