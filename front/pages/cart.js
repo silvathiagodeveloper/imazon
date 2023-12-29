@@ -50,7 +50,7 @@ const QuantityLabel = styled.span`
 `;
 
 export default function CartPage(){
-    const {cartProducts, addProduct, removeProduct} = useContext(CartContext);
+    const {cartProducts, addProduct, removeProduct, clearCart} = useContext(CartContext);
     const [products, setProducts] = useState([]);
     const [buyer, setBuyer] = useState({
         name: '',
@@ -60,6 +60,7 @@ export default function CartPage(){
         streetAddress: '',
         country: ''
     });
+    const [isSuccess, setIsSuccess] = useState(false);
     useEffect(() => {
         if(cartProducts.length > 0){
             axios.post('api/cart', {ids:cartProducts})
@@ -70,6 +71,12 @@ export default function CartPage(){
             setProducts([]);
         }
     }, [cartProducts]);
+    useEffect(() =>{
+        if(window.location.href.includes('success')){
+            setIsSuccess(true);
+            clearCart();
+        }
+    },[])
     function moreOfThisProduct(id){
         addProduct(id);
     }
@@ -97,7 +104,7 @@ export default function CartPage(){
         }));
         console.log(buyer);
     };
-    if(window.location.href.includes('success')){
+    if(isSuccess){
         return(
             <>
                 <Header/>
