@@ -7,18 +7,13 @@ import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
 import Center from "@/components/Center";
+import WhiteBox from "@/components/WhiteBox";
 
 const ColumnsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1.3fr .8fr;
     gap: 40px;
     margin-top: 40px;
-`;
-
-const Box = styled.div`
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 30px;;
 `;
 
 const ProductInfoCell = styled.td`
@@ -110,10 +105,10 @@ export default function CartPage(){
                 <Header/>
                 <Center>
                     <ColumnsWrapper>
-                        <Box>
+                        <WhiteBox>
                             <h1>Thanks for your order</h1>
                             <p>We will email when your order will be sent.</p>
-                        </Box>
+                        </WhiteBox>
                     </ColumnsWrapper>
                 </Center>
             </>
@@ -124,7 +119,7 @@ export default function CartPage(){
             <Header/>
             <Center>
             <ColumnsWrapper>
-                <Box>
+                <WhiteBox>
                     <h2>Cart</h2>
                     {!cartProducts.length &&(
                         <div>Your cart is empty</div>
@@ -171,9 +166,9 @@ export default function CartPage(){
                             </tbody>
                         </Table>
                     )}
-                </Box>
+                </WhiteBox>
                 {!!cartProducts?.length &&(
-                    <Box>
+                    <WhiteBox>
                         <h2>Order Information</h2>
                         <Input type="text" placeholder="Name" name="name" onChange={handleChange} value={buyer.name}/>
                         <Input type="text" placeholder="Email" name="email" onChange={handleChange} value={buyer.email}/>
@@ -185,7 +180,7 @@ export default function CartPage(){
                         <Input type="text" placeholder="Country" name="country" onChange={handleChange} value={buyer.country}/>
                         <input type="hidden" name="products" value={cartProducts.join(',')} />
                         <Button black block onClick={goToPayment}>Continue to payment</Button>
-                    </Box>
+                    </WhiteBox>
                 )}
             </ColumnsWrapper>
             </Center>
