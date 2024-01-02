@@ -40,8 +40,8 @@ export default function OrdersPage(){
                                     </>
                                 ))}
                             </td>
-                            <td>
-                                {order.paid}
+                            <td className={order.paid ? 'text-green-600' : 'text-red-600'}>
+                                {order.paid ? 'YES' : 'NO'}
                             </td>
                         </tr>                        
                     ))}
