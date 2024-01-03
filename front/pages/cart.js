@@ -11,7 +11,10 @@ import WhiteBox from "@/components/WhiteBox";
 
 const ColumnsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1.3fr .8fr;
+    grid-template-columns: 1fr;
+    @media screen and (min-width: 768px){
+        grid-template-columns: 1.3fr .8fr;
+    }
     gap: 40px;
     margin-top: 40px;
 `;
@@ -26,22 +29,36 @@ const CityHolder = styled.div`
 `;
 
 const ProductImageBox = styled.div`
-    width: 100px;
-    height: 100px;
-    padding: 10px;
+    width: 70px;
+    height: 70px;
+    padding: 2px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     img{
-        max-width: 80px;
-        max-height: 80px;
+        max-width: 60px;
+        max-height: 60px;
+    }
+    @media screen and (min-width: 768px){
+        padding: 10px;
+        width: 100px;
+        height: 100px;
+        img{
+            max-width: 80px;
+            max-height: 80px;
+        }
     }
 `;
 
 const QuantityLabel = styled.span`
-    padding: 0 3px;
+    padding: 0 10px;
+    display: block;
+    @media screen and (min-width: 768px){
+        display: inline-block;
+        padding: 0 10px;
+    }
 `;
 
 export default function CartPage(){
